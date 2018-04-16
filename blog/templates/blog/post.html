@@ -1,0 +1,52 @@
+{% extends "library/base.html" %}
+
+{% block title %} Lyfey Posts {% endblock %}
+
+{% block content %}
+<br></br>
+<div class="container">
+<form method='GET' action="">
+	<form>
+		<input type="text" name='article_query' placeholder="Search Articles" value="{{request.GET.article_query}}">
+		<input type='submit' value="Search" >
+	</form>
+	
+</form>
+</div>
+	{% for post in queryset %}<br>
+	<div class="container">
+<div class="row">
+	<div class="col-sm-12">
+		<div class="thumbnail">
+			<h1><b><a href="/blog/{{post.id}}">{{post.title}}</a><b></h1>
+			<h1>{{post.date_published}}</h1>
+			<p>{{post.body|linebreaks|truncatechars:120}}</p>
+		</div>
+		
+	</div>
+	
+</div>
+
+</div>
+
+
+	{%endfor %}
+	<div class="container">
+
+<div class="pagination">
+	<span>
+		{% if queryset.has_previous %}
+		<a href="?page={{ queryset.previous_page_number }}">Previous</a>
+		{% endif %}
+	</span>
+	<span class="current">
+		Page {{ queryset.number }} of {{queryset.paginator.num_pages}}
+	</span>
+	{% if queryset.has_next %}
+	<a href="?page={{ queryset.next_page_number }}">next</a>
+	{% endif %}
+
+	</div>
+
+</div>
+{% endblock %}

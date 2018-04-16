@@ -1,0 +1,16 @@
+{% extends "library/base.html" %}
+
+{% block title %} Lyfey Posts {% endblock %}
+
+{% block content %}	 
+	<div class="container">
+		<!-- <img class= "text-center" src="{{post.image.url}}" height="300" width="500"> -->
+	<h1><b>{{post.title}}</b></h1>
+		<p>{{post.body|safe|linebreaks}}</p>
+		   <div class="fb-like" data-href="https://www.facebook.com/lyfeyApp/" data-layout="standard" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+		<hr>
+		<div class="fb-comments" data-href="https://www.facebook.com/lyfeyApp/" data-numposts="5"></div>
+	
+</div>
+
+{% endblock %}

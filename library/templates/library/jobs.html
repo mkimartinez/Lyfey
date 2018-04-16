@@ -1,0 +1,24 @@
+{% extends 'library/base.html' %}
+{% block title %} Jobs {% endblock %}
+
+{% block content %}
+<h2 class="text-center">Our Articles</h2>
+    <div class="container">
+        <div class = "row col-lg-12">
+            <div class="panel ">
+                {% for jobs in all_jobs %}
+                    <div class="container">
+                    <h2> <a href="library/job_detail/{{ jobs.id }}"> {{ jobs.title }}</a></h2><br>
+                    <p>{{jobs.location}}</p>
+                    </div>
+                    <div class="container">
+                                       
+                    </div>
+                   <hr>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+
+{%endblock %}

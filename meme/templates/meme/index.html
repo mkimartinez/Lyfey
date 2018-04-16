@@ -1,0 +1,50 @@
+{% extends 'library/base.html' %}
+{% block title %} Funny Memes {% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Do you have Funny Meme to share   <a href="{% url 'meme:create' %}">Post Meme</a> </h2>
+    
+</div>
+    {% for meme in queryset %}
+    <div class="row">
+    <div class="container">
+    	<div class="col-sm-8">
+    	<h3><b>{{meme.title}}<b></h3>
+         <p> {{meme.date_posted}} </p>
+        <img src="{{ meme.banner.url }}" alt="=images/1.jpg">
+        <br></br>
+           <div class="fb-like" data-href="https://www.facebook.com/lyfeyApp/" data-layout="standard" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+    	</div>
+    	<div class="col-sm-4">
+    		<h2>come</h2>
+    		<div class="fb-comments" data-href="https://www.facebook.com/lyfeyApp/" data-numposts="5"></div>
+    	</div>
+
+  
+
+</div>
+  <hr></hr>
+
+</div>
+
+    {%endfor %}
+    <div class="container">
+        
+  
+<div class="pagination">
+    <span>
+        {% if queryset.has_previous %}
+        <a href="?page={{ queryset.previous_page_number }}">Previous</a>
+        {% endif %}
+    </span>
+    <span class="current">
+        Page {{ queryset.number }} of {{queryset.paginator.num_pages}}
+    </span>
+    {% if queryset.has_next %}
+    <a href="?page={{ queryset.next_page_number }}">next</a>
+    {% endif %}
+
+    </div>
+  </div>
+{% endblock %}
