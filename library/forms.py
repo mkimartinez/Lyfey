@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from django import forms
+ 
 
 
 class LoginForm(forms.Form):
@@ -28,8 +29,8 @@ class LoginForm(forms.Form):
 # class ContactForm(forms.Form):
 #     yourname = forms.CharField(max_length=100)
 
-
-
+ 
+        
 
 
 class RegisterForm(forms.Form):

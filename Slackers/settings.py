@@ -30,7 +30,11 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'meme.apps.MemeConfig',
+    'contacts.apps.ContactConfig',
+    'ckeditor',
+    'ckeditor_uploader'
 )
+CKEDITOR_UPLOAD_PATH = "uploads/"
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',

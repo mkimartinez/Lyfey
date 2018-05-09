@@ -15,9 +15,9 @@ import json
 from django.views.generic import TemplateView 
 from django.views import generic
 
-from library.models import  User
+# from library.models import  User
 from jobs.models import Job
-from library.forms import LoginForm, RegisterForm, ResetPasswordForm
+from library.forms import LoginForm, RegisterForm, ResetPasswordForm 
 
 def index(request):
     return render(request, 'library/index.html')
@@ -192,3 +192,16 @@ def article_detail(request):
 
 
 
+@login_required(login_url='/login')
+def sendMessage(request):
+    if request.method=='POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            #save to the database
+            instance= form.save(commit=False)
+            instance.posted_by = request.user
+            instance.save()
+            return redirect('jobs:jobsIndex')
+    else:
+        form=CreateJob()
+    return render(request,'jobs/create_job.html',{'form':form})

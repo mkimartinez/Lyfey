@@ -6,4 +6,7 @@ class CreateJob(forms.ModelForm):
 	class Meta:
 		model = models.Job
 		fields =['title', 'company_name', 'description', 'salary' ,'location']
-		
+		widgets = {
+			'title':forms.TextInput(attrs={'class':'input'})
+		}
+		 

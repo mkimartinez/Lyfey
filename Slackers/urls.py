@@ -7,4 +7,6 @@ urlpatterns = [
     url(r'^jobs/', include('jobs.urls')),
     url(r'^blog/', include('blog.urls')),
     url(r'^meme/', include('meme.urls')),
+    url(r'^contacts/', include('contacts.urls')),
+    url(r'ckeditor/',include('ckeditor_uploader.urls')),
 ]

@@ -1,11 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
+from ckeditor.fields import RichTextField
 
 # Create your models here.
 class Job(models.Model):
     title = models.CharField(max_length=100)
     company_name = models.CharField(max_length=100)
-    description = models.TextField()
+    description = RichTextField(blank=True)
     tags = models.CharField(max_length=100)
     salary = models.IntegerField()
     location = models.CharField(max_length=100)

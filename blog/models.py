@@ -1,12 +1,14 @@
 from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
+from ckeditor.fields import RichTextField
 
+from ckeditor_uploader.fields import RichTextUploadingField
 # Create your models here.
 class Post(models.Model):
 		user = models.ForeignKey(User,default=None)
 		title = models.CharField(max_length=100)
-		body = models.TextField()
+		body = RichTextUploadingField(blank=True,null=True)
 		date_published = models.DateTimeField(auto_now_add=True)
 		tags = models.CharField(max_length=100)
 		image = models.ImageField(default='media/images/')
