@@ -20,7 +20,8 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = (
     'blog.apps.BlogConfig',
-    # 'memes.apps.MemesConfig',
+    'quiz.apps.QuizConfig',
+    'cityEvent.apps.CityeventConfig',
     'jobs.apps.JobsConfig',
     'library.apps.libraryConfig',
     'django.contrib.admin',
@@ -80,7 +81,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'USER': 'postgres',
-        'NAME': 'Lyfey',
+        'NAME': 'Lyfey-Page',
         'PASSWORD' : 'MKI2017',
         'HOST' : '127.0.0.1',
         'PORT' :'5432'

@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from datashape import unicode
+from django.db import models 
 
 
 # class Profile(models.Model):
@@ -16,3 +17,4 @@ from datashape import unicode
 
 #     def __str__(self):
 #     	return self.subject
+ 

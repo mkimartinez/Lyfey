@@ -14,7 +14,7 @@ from jobs.forms import CreateJob
 # 	return HttpResponse("Hi")
 @login_required(login_url='/login')
 def jobsIndex(request):
-	queryset_list=Job.objects.all()
+	queryset_list=Job.objects.all().order_by('-date_posted')
 	paginator = Paginator(queryset_list,3)
 	page = request.GET.get('page')
 

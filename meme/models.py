@@ -9,3 +9,18 @@ class Mem(models.Model):
 	publisher = models.ForeignKey(User,default=None)
 	def __str__(self):
 		return self.title
+
+class Comment(models.Model):
+	meme= models.ForeignKey(Mem,related_name='comments')
+	user = models.CharField(max_length=100)
+	email = models.EmailField()
+	body = models.TextField()
+	created = models.DateTimeField(auto_now=True)
+	approved = models.BooleanField(default=False)
+
+	def approved(self):
+		self.approved=True
+		self.save()
+
+		def __str__(self):
+			return self.user

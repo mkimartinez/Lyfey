@@ -7,7 +7,7 @@
 <div class="container">
 <form method='GET' action="">
 	<form>
-		<input type="text" name='article_query' placeholder="Search Articles" value="{{request.GET.article_query}}">
+		<input type="text" name='q' placeholder="Search Articles" value='{{request.GET.q}}'>
 		<input type='submit' value="Search" >
 	</form>
 	
@@ -16,11 +16,12 @@
 	{% for post in queryset %}<br>
 	<div class="container">
 <div class="row">
-	<div class="col-sm-12">
+	<div class="col-sm-8">
 		<div class="thumbnail">
-			<h1><b><a href="/blog/{{post.id}}">{{post.title}}</a><b></h1>
-			<h1>{{post.date_published}}</h1>
-			<p>{{post.body|linebreaks|truncatechars:120}}</p>
+			<img height="500px" src="{{ post.image.url }}" alt="=images/1.jpg">
+			<h1><b>{{post.title|striptags}}<b></h1>
+			<h3>{{post.date_published|striptags}}</h3>
+			<p>{{post.body|striptags|linebreaks|truncatechars:120}}<span><a href="/blog/{{post.id}}">Readmore</a></span></p>
 		</div>
 		
 	</div>

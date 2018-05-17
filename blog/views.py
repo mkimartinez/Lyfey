@@ -1,18 +1,19 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from blog.models import Post
+from blog.models import Post 
+from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.decorators import login_required
 from blog.forms import CreatePost
 # Create your views here.
 @login_required(login_url='/login')
 def index(request):
-	queryset_list=Post.objects.all()
+	queryset_list=Post.objects.all().order_by('-date_published')
 	paginator = Paginator(queryset_list,3)
 	page = request.GET.get('page')
-	query = request.GET.get("article_query")
+	query = request.GET.get("q")
 	if query:
-		queryset_list = queryset_list.filter(title__icontains=query)
+		queryset_list = queryset_list.filter(Q(title__icontains=query))
 
 	try:
 		queryset = paginator.page(page)
