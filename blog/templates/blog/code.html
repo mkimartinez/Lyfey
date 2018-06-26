@@ -1,0 +1,92 @@
+<div class="container">
+	<div class="row">
+		<div class="col-12 col-sm-12 col-md-6 col-lg-4 ml-auto">
+			<form method="GET" action="">
+				<div role="alert" class="alert alert-success">
+					<input type="text" class="form-control" placeholder="Search Articles" value="{{ request.GET.q }}" name='q' ><br>
+					<input class="btn btn-primary" type='submit' value='Search'/>
+				</div>
+			</form>
+		</div> 
+	</div>  
+</div>
+
+			<div class="col-md-4" style="padding-left: 35px; background-color: #CFD8DC;">
+				<div class="clearfix"></div>
+				<br>
+				<div class="row" >
+					<div>
+						<div class="card" style="width: 18rem;">
+							<div class="card-body">
+								<h3 class="card-title  mx-auto">Blog Categories</h3>
+								<p class="card-text">{{ category }}</p>
+								<ul class="list-group list-group-flush">
+
+									{% for category in categories %}
+								<!-- 	<li class="list-group-item"><a href="{{ category }}" ><h3><b>{{ category }}</b></h3></a></li> -->
+								  <p><a href="#">{{category}}</a></p>
+									{%endfor %}
+
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<br>
+				<br>
+			</div>
+
+
+search
+<!-- <div class="container">
+	<div class="row">
+<form method='GET' action=''>
+	<div class="form-group">	
+		<input    size="120" type="text" name='q' placeholder='Search Articles' value="{{ request.GET.q }}"   />
+		<input class="btn btn-primary" type='submit' value='Search'/>
+	</div>
+</form>
+</div>
+</div -->
+
+
+
+			<!-- {% for post in queryset %}<br>
+			<div class="thumbnail">
+				<img height="500px" src="{{ post.image.url }}" alt="=images/1.jpg" class="image-responsive">
+				<h1 class="font-weight-light "><b><span><a href="/blog/{{post.id}}">{{post.title|striptags}}</a></span></b></h1>
+				<h3>{{post.date_published|striptags}}</h3>
+				<p>{{post.body|striptags|linebreaks|truncatechars:120}}<span><a href="/blog/{{post.id}}">Readmore</a></span></p>
+			</div>
+			{%endfor %} -->
+
+
+			<div class="panel panel-primary">
+				<header class="panel-heading">
+					<h5 class="panel-title">Categories</h5> 
+				</header>
+				<div class="panel-body">
+					<div class="col-sm-3 text-center">
+						{% for category in categories %}<br>
+						<a href="{{ category }}" ><h1><b>{{ category }}</b></h1></a>
+						{%endfor %}
+					</div>
+					{#  <footer class="panel-footer">...</footer>#}
+				</div>
+			</div>
+
+
+//sidebar
+			<div class="card" style="width: 25rem;">
+				<div class="card-header">
+					<h3>Popular posts</h3>
+				</div>
+				{% for post in post_q %}
+				<div style="margin: 10px;">
+					<h3 class="card-title " ><b><span><a href="/blog/{{post.id}}">{{post.title|striptags|truncatechars:50}}</a>
+					</span></b></h3>
+					<h4>{{  post.date_published }}</h4>
+				</div><hr>
+				{%  endfor %}
+			</div>

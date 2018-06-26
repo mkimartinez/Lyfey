@@ -1,0 +1,58 @@
+{% extends 'library/base.html' %}
+
+
+{% block content %}
+
+    {% if state %}
+        <div class="col-md-2 col-md-offset-5">
+            <div class="alert alert-warning">
+                <a href="#" class="close" data-dismiss="alert">&times;</a>
+                {% if state == 'success' %}
+                    <h2> Success！ </h2>
+                {% elif state == 'repeat_error' %}
+                    <h2> Password does not match </h2>
+                {% elif state == 'empty' %}
+                    <h2> Password cant be blank </h2>
+                {% elif state == 'user_exist' %}
+                    <h2> Already exist </h2>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+
+    <div class="container myContainer">
+        <h1 class="text-center logo my-4">
+      <a href="#">Welcome To Lyfey</a>
+    </h1>
+        <div class="row justify-content-center">
+             <div class="col-lg-8 col-md-10 col-sm-12 shadow-lg p-3 mb-5 bg-white rounded">
+                <div class="card  border-success mx-auto"  >
+                    <div class="card-body ">
+<form method="post" class="form-control">
+    {% csrf_token %}
+    {% for field in form %}
+      <p>
+        {{ field.label_tag }}<br>
+        {{ field }}
+        {% if field.help_text %}
+          <!-- <small style="color: grey">{{ field.help_text }}</small> -->
+        {% endif %}
+        {% for error in field.errors %}
+          <p style="color: red">{{ error }}</p>
+        {% endfor %}
+      </p>
+    {% endfor %}
+    <button type="submit">Sign up</button>
+  </form>
+            </div>
+                <div class="card-footer text-muted text-center">
+            Already have an account? <a href="/login/">Log in</a>
+            </div>
+        </div>
+    </div>
+</div>
+        </div>
+    </div>
+
+
+{% endblock %}

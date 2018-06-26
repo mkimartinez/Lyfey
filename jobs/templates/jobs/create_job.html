@@ -8,20 +8,20 @@
 <div class ='container'>
 	<h2>Post Job</h2>
 	<form class="create-job" action="{% url 'jobs:jobsCreate' %}" method="post">
-	{{ form.management_form }}
-    {% csrf_token %}
-    {% for form in form %}
-        {% for field in form %}
-            {{ field.label_tag }} {{ field }}
-        {% endfor %}
-        <br><br>
-    {% endfor %}
-    <input type="submit" value="Create" name="">
+		{% csrf_token %}
+        {{ form.as_p }}
+        <br>
+    <input id="submit" class="btn btn-lg btn-success" type="submit" value="Post Job" name="">
+    <br>
 		
 	</form>
-
-
-
+    <br>
+    <br>
+    <br>
 </div>
+<script >
+	var button = Document.getElementByID('submit');
+	button.onclick(alert 'hi');
+</script>
 
 {% endblock %}

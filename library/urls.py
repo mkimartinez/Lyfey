@@ -7,7 +7,7 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 import library.views as views
-# app_name ='library'
+app_name ='library'
 
 urlpatterns = [
                  url(r'^$', views.index, name='index'),
@@ -18,10 +18,9 @@ urlpatterns = [
                   url(r'^static/(?P<path>.*)$', static_views.serve, name='static'),
                   # url(r'^book/detail$', views.book_detail, name='book_detail'),
                   url(r'^index/article_detail', views.article_detail, name='article_detail'),
-                  # url(r'^book/action$', views.reader_operation, name='reader_operation'),
-                  # url(r'^search/', views.book_search, name='book_search'),
                   url(r'^profile/', views.profile, name='profile'),
+                  url(r'^signup/$', views.signup, name='signup'),
                   url(r'^about/', views.about, name='about'),
-                   url(r'^contact/', views.contact, name='contact'),
+                  url(r'^contact/', views.contact, name='contact'),
                   # url(r'^indexJobs/', views.jobs, name='jobs'),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,0 +1,51 @@
+{% extends "library/base.html" %}
+
+{% block title %} View answers {% endblock %}
+
+
+{% block content %}
+<div class="container">
+	<br>
+	<div class="row">
+		<div class="col-md-8 border border-success">
+			<h2>Question</h2>
+			{{question.content|striptags}}
+			<hr>
+			{% for answer in question.answers.all %}
+			<div class="alert alert-secondary" role="alert">
+				<h4>{{answer.answered_by}}</h4>
+				{{answer.content|striptags}}
+				
+			</div>
+			
+			{% empty %}
+			<p>No Answers here yet :(</p>
+			{% endfor %}
+			<div>
+				<a href="{% url 'quiz:answer_question' pk=question.pk %}"><button class="btn btn-success">Answer Question</button></a>
+			</div><br>
+		</div>
+		<br>
+
+		<div class="col-md-4 border border-info">
+			<br>
+			<div class="list-group">
+				<a href="#" class="list-group-item list-group-item-action active">
+					<h3>Recent Questions</h3>
+				</a>
+				{% for question in quiz %}
+				<a href="#" class="list-group-item list-group-item-action disabled">{{question.content|striptags}}</a>
+				{% endfor %}
+				
+				
+			</div>
+			
+		</div>
+		<br>
+	</div>
+	<br>
+	<br>
+	<br>
+</div>
+
+{% endblock %}

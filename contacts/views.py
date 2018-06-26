@@ -17,4 +17,4 @@ def sendMessage(request):
             return redirect('contacts:sendMessage')
     else:
         form=ContactForm()
-    return render(request,'contacts/contact.html',{'form':form})
+    return render(request,'contacts/contact.html',{ 'form':form })

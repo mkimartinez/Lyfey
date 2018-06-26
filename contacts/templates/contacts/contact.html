@@ -4,49 +4,14 @@
 
 
 {% block content %}
-
-
-<!-- <div class ='container'>
-	<h2>Send Message</h2>
-	<form class="send-message" action="{% url 'contacts:sendMessage' %}" method="post">
-		{% csrf_token %}
-		{{ form }}
-		<input type="submit" value="Send" name="">
-		
-	</form>
-
-</div> -->
-
-<!-- <form method="post" action="">
-    {{ form.management_form }}
-    {% for form in form %}
-        {{ form }}
-    {% endfor %}
-</form> -->
+<br>
 <div class="container">
-	<h2>Send Message</h2>
-<form method="post" action="{% url 'contacts:sendMessage' %}">
-    {{ form.management_form }}
-    {% csrf_token %}
-    {% for form in form %}
-        {% for field in form %}
-            {{ field.label_tag }} {{ field }}
-        {% endfor %}
-        <br><br>
-    {% endfor %}
-    <input type="submit" value="Send" name="">
-</form></div>
-<!-- <div class="container">
-<form method="post" action="">
-    {{ form.management_form }}
-
-    {% for form in form %}
-        {{ form.id }}
-        <ol>
-            <li>{{ form }}</li>
-             
-        </ol>
-    {% endfor %}
-</form>
-</div> -->
-{% endblock %}
+	<div>
+	<h1 class="text-center">Send Message</h1>
+	</div>
+	<form class="form-group" method="post" action="{% url 'contacts:sendMessage' %}">
+		{% csrf_token %}
+		{{ form.as_p }}
+		<input type="submit" value="Send" name="" class=" btn btn-primary btn-lg">
+	</form></div>
+	{% endblock %}

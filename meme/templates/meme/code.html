@@ -1,0 +1,19 @@
+ <hr>
+        {% for comment in meme.comments.all %}
+        <p>{{ comment.user }}</p>
+        <p>{{ comment.body }}</p>
+
+        {% empty %}
+        <p>No Comments</p>
+         <form class="site-form" action="" method="post" enctype="multipart/form-data">
+                   {% csrf_token %}
+                    {{ form.management_form }}
+                            {% for form in form %}
+                                {% for field in form %}
+                                    {{ field.labels }} {{ field }}
+                                {% endfor %}
+                                <br><br>
+                            {% endfor %}
+                    <input type="submit" value="Create" name="">
+                    
+                </form>

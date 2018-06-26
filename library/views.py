@@ -3,10 +3,13 @@
 
 import datetime
 
-from django.shortcuts import render, get_object_or_404
+from django.contrib.auth.models import User
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden
 from django import forms
 from django.contrib import auth
+from library.forms import SignUpForm
+from django.contrib.auth import login, authenticate
 from django.template import loader
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -20,30 +23,14 @@ from jobs.models import Job
 from library.forms import LoginForm, RegisterForm, ResetPasswordForm 
 
 def index(request):
-    return render(request, 'library/index.html')
-# class IndexView(generic.ListView):
-#     template_name = 'jobs/jobsIndex.html'
+    return render(request, 'library/home.html')
 
-#     def get_queryset(self):
-#         return Job.objects.all()
-
-
-
-# def article_detail(request,id):
-#     article = get_object_or_404(Articles, pk=id)
 
 
     # return render(request, 'library/book_detail.html', {'article':article})
 def contact(request):
     return render(request,'library/contact.html')
 
-
-# def jobs(request):
-#         all_jobs = Jobs.objects.all()
-#         contextm = {
-#         'all_jobs' : all_jobs,
-#         }
-#         return render(request,'library/jobs.html',contextm)
 
 def user_login(request):
     if request.user.is_authenticated():
@@ -76,12 +63,7 @@ def user_login(request):
 def about(request):
     return render(request,'library/about.html')
 
-# class about(TemplateView):
-#     template_name = 'library/about.html'
-#     def about(request):
-#         contactform = ContactForm()
-        
-#     return render(request, self.template_name, {'contactform':contactform})
+
 
 def user_register(request):
     if request.user.is_authenticated():
@@ -125,7 +107,19 @@ def user_register(request):
     }
 
     return render(request, 'library/register.html', context)
-
+def signup(request):
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return redirect('library:user_login')
+    else:
+        form = SignUpForm()
+    return render(request, 'library/signup.html', {'form': form})
 
 @login_required
 def set_password(request):
@@ -179,14 +173,14 @@ def profile(request):
     }
     return render(request, 'library/profile.html', context)
 
-
-def article(request):
-    all_articles = Articles.objects.all()
-    template = loader.get_template('library/index.html')
-    context = {
-    'all_articles' : all_articles,
-    }
-    return HttpResponse(template.render(context,request))
+#
+# def article(request):
+#     all_articles = Articles.objects.all()
+#     template = loader.get_template('library/index.html')
+#     context = {
+#     'all_articles' : all_articles,
+#     }
+#     return HttpResponse(template.render(context,request))
 def article_detail(request):
     return HttpResponse("HI")
 

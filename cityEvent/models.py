@@ -15,6 +15,9 @@ class Event(models.Model):
 		organizers_name = models.CharField(max_length=100)
 		banner = models.ImageField(default='media/images/')
 		event_date = models.DateTimeField()
+		county = models.CharField(max_length=100,null=True)
+		email = models.CharField(max_length=100,null=True)
+		phone_number = models.CharField(max_length=100,null=True)
 		# post_file = models.FileField(blank=True,null=True,upload_to="blog/files/%Y/m/$D/")
 		def __str__(self):
 			return self.title 

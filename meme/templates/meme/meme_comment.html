@@ -1,0 +1,27 @@
+{% extends 'library/base.html' %}
+
+{% block content %}
+<div class="container">
+	<br>
+	<div class="row">
+		<h1 class="text-center">Post Your comment</h1>
+	</div>
+	<div class="col-8">
+	
+	<form method="POST" class="post-form">
+		{% csrf_token %}
+		{{ form.as_p }}
+		<button type="submit" class="save btn btn-primary btn-lg">Send Comment</button>
+	</form>
+</div>
+</div>
+<br>
+<br>
+ 
+<br>
+<br>
+<br>
+<br>
+<br>
+
+{% endblock %}

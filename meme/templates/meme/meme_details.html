@@ -1,0 +1,62 @@
+{% extends "library/base.html" %}
+
+{% block title %} Lyfey Memes {% endblock %}
+{% load staticfiles %}
+{% block content %}
+<div class="container">
+	<br>
+	<div class="row">
+		<div class="col-md-8 card-img-top" style="background-color: white;">
+			<div >
+				<h3>{{mem.title}}</h3><br>
+				<h4>{{mem.date_posted}}</h4>
+				<hr>
+			</div>
+			<div class="row">
+				<img src="{{mem.banner.url}}" alt="" class="img-thumbnail">
+				<h3><a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}">
+			Share on Facebook
+			</a>| <a href="https://twitter.com/home?status={{ request.build_absolute_uri}} + {{post.title|striptags}}  ">
+				Share on Twitter
+			</a></h3>
+			</div>
+			<br>
+			<h3>Comments</h3>
+			<div class="clearfix"></div>
+			<div>
+				{% for comment in mem.comments.all %}
+				<div>	
+				</div>
+				<p>{{comment.body}}</p>
+				<h4>{{comment.user}} | {{comment.created}}</h4>
+				<hr>
+				{% empty %}
+				<p>No comments here yet :(</p>
+				
+				{% endfor %}
+			</div>
+			<div class="row">
+				<a href="{% url 'meme:meme_comment' pk=mem.pk %}" class="btn btn-success btn-lg">Add Comment</a>
+			</div>
+			<br>
+		</div>
+		<div class="col-md-4 border border-primary" style="background-color: #fff;">
+			<br>
+			{% for meme in memeList %}
+			<div class="media mb-4 shadow-sm p-3 mb-5 bg-success text-white rounded">
+				<img class="align-self-center mr-3" src="{{ meme.banner.url }}" alt="Generic placeholder image" height="80px" width="">
+				<div class="media-body">
+					<h5 class="text-white" style="color: white;"><a class="text-white" href="/meme/{{meme.id}}">{{meme.title}}</a></h5>
+					<h4>{{  meme.date_posted }}</h4>
+				</div>
+			</div>
+			{% endfor %}
+		</div>
+
+		
+	</div>
+
+	
+</div>
+
+{% endblock %}

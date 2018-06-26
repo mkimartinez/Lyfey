@@ -1,0 +1,18 @@
+{% extends 'library/base.html' %}
+{% block title %} Answer question {% endblock %}
+
+{% block content %}
+<div class="container">
+	 {{question.content|striptags}}
+	<h1>Answer Question</h1>
+	<form method="POST" class="post-form">{% csrf_token %}
+		{{ form.as_p }}
+		<button type="submit" class="save btn btn-primary btn-lg">Submit Answer</button>
+	</form>
+</div>
+<br>
+<br>
+ 
+
+
+{% endblock %}

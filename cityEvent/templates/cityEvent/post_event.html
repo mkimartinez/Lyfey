@@ -1,0 +1,23 @@
+{%  extends 'library/base.html' %}
+{% load staticfiles %}
+{% block title %}Post Event | Lyfey  {% endblock %}
+<link href="{% static 'library/createjob.css' %}" rel="stylesheet">
+
+{% block content %}
+
+<div class ='container'>
+	<h2>Post Your Event</h2>
+	<form class="create-job" action="{% url 'cityEvent:eventsCreate' %}" method="post">
+		{% csrf_token %}
+        {{ form.as_p }}
+        <br>
+    <input class="btn btn-lg btn-success" type="submit" value="Post Job" name="">
+    <br>
+		
+	</form>
+    <br>
+    <br>
+    <br>
+</div>
+
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends "library/base.html" %}
+
+{% block title %}{{category.name}} {% endblock %}
+
+{% block content %}
+<br></br>
+<div class="container">
+<form method='GET' action="">
+	<form>
+		<input type="text" name='q' placeholder="Search Articles" value='{{request.GET.q}}'>
+		<input type='submit' value="Search" >
+	</form>
+	
+</form>
+</div>
+	{% for post in queryset %}<br>
+	<div class="container">
+<div class="row">
+	<div class="col-sm-8">
+		<div class="thumbnail">
+			<img height="500px" src="{{ post.image.url }}" alt="=images/1.jpg">
+			<h1><b>{{post.title|striptags}}<b></h1>
+			<h3>{{post.date_published|striptags}}</h3>
+			<h3>{{ category.name }}</h3>
+			<p>{{post.body|striptags|linebreaks|truncatechars:120}}<span><a href="/blog/{{post.id}}">Readmore</a></span></p>
+		</div>
+		
+	</div>
+	
+</div>
+
+</div>
+
+
+	{%endfor %}
+	<div class="container">
+
+<div class="pagination">
+	<span>
+		{% if queryset.has_previous %}
+		<a href="?page={{ queryset.previous_page_number }}">Previous</a>
+		{% endif %}
+	</span>
+	<span class="current">
+		Page {{ queryset.number }} of {{queryset.paginator.num_pages}}
+	</span>
+	{% if queryset.has_next %}
+	<a href="?page={{ queryset.next_page_number }}">next</a>
+	{% endif %}
+
+	</div>
+
+</div>
+{% endblock %}

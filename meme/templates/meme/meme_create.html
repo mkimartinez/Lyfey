@@ -2,24 +2,26 @@
 {% block title %} Create Meme {% endblock %}
 
 {% block content %}
-<h2 class="text-center">Post your Meme</h2>
+<div class="container">
+  <h2 class="text-center">Post your Meme</h2>
+
+</div>
+<br>
+
     <div class="container">
-        <div class = "row col-lg-12">
-            <div class="panel ">
-                <form class="site-form" action="" method="post" enctype="multipart/form-data">
+        <div class = "row ml-auto">
+            <div class="col-md-8">
+                <form class="form-control" action="" method="post" enctype="multipart/form-data">
                    {% csrf_token %}
-                    {{ form.management_form }}
-                            {% for form in form %}
-                                {% for field in form %}
-                                    {{ field.labels }} {{ field }}
-                                {% endfor %}
-                                <br><br>
-                            {% endfor %}
-                    <input type="submit" value="Create" name="">
-                    
+                    <div class="form-group">
+                           {{form.as_p}}
+                         <input class="btn btn-primary btn-lg" type="submit" value="Post Meme" name="">
+                    </div>
+
                 </form>
                     
             </div>
         </div>
+        <br>
     </div>
 {%endblock %}

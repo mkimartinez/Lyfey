@@ -1,0 +1,20 @@
+{% extends 'library/base.html' %}
+
+{% block content %}
+<div class="container">
+	<h1>New comment</h1>
+	<form method="POST" class="post-form">{% csrf_token %}
+		{{ form.as_p }}
+		<button type="submit" class="save btn btn-primary btn-lg">Send Comment</button>
+	</form>
+</div>
+<br>
+<br>
+ 
+<br>
+<br>
+<br>
+<br>
+<br>
+
+{% endblock %}

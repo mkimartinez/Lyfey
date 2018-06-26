@@ -16,11 +16,14 @@
         </div>
     {% endif %}
 
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1">
-
-
+    <div class="container ">
+        <h1 class="text-center logo my-4">
+      <a href="#">Lyfey Kenya</a>
+    </h1>
+        <div class="row justify-content-center ">
+            <div class="col-lg-4 col-md-6 col-sm-8 shadow-lg p-3 mb-5 bg-white rounded">
+                <div class="card border-success mx-auto">
+                    <div class="card-body">
                 <form method="POST" role="form" class="form-horizontal" action="/login/">
                     {% csrf_token %}
                     <h1 class="form-signin-heading text-center">Login</h1>
@@ -42,8 +45,25 @@
                     </div>
                 </form>
             </div>
+            <div class="card-footer text-muted text-center">
+            New to Lyfey Kenya? <a href="/register/">Register</a>
+          </div>
         </div>
+        <div class="text-center py-2">
+          <small>
+            <a href="#" class="text-muted">Forgot your password?</a>
+          </small>
+        </div>
+            </div>
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
     </div>
+
+   
 
 {% endblock %}
 

@@ -6,5 +6,5 @@ from meme.models import Comment
 admin.site.register(models.Mem)
 
 class CommentAdmin(admin.ModelAdmin):
-	list_display =('user','email','approved')
+	list_display =('user','approved')
 admin.site.register(Comment,CommentAdmin)

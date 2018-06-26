@@ -8,17 +8,12 @@ from django.template import loader
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic.edit import CreateView,UpdateView,DeleteView
-from . import forms
+from meme.forms import CreateMem,MemeComment
 
-# def indexMemes(request):
-# 	return render(request, 'memes/index.html')
-# # def index(request):
-#     return render(request, 'library/index.html')
-@login_required(login_url='/login')
 def index(request):
 	model=Mem
-	queryset_list=model.objects.all().order_by('date_posted')
-	paginator = Paginator(queryset_list,3)
+	queryset_list=model.objects.all().order_by('-date_posted')
+	paginator = Paginator(queryset_list,6)
 	page = request.GET.get('page')
 
 	try:
@@ -40,7 +35,7 @@ def index(request):
 def meme_create(request):
 	
 	if request.method=='POST':
-		form = forms.CreateMeme(request.POST,request.FILES)
+		form = CreateMem(request.POST,request.FILES)
 		if form.is_valid():
 			#safe meme to db
 			instance= form.save(commit=False)
@@ -49,6 +44,43 @@ def meme_create(request):
 			return redirect('meme:indexMemes')
 			# return (HttpResponse("sucess"))
 	else:
-		form = forms.CreateMeme()
+		form = CreateMem()
 
 	return render(request,'meme/meme_create.html',{'form':form})
+
+def meme_details(request,pk):
+	memeList= Mem.objects.all().order_by('-date_posted')[:10]
+	try:
+		mem_id = Mem.objects.get(pk=pk)
+	except Mem.DoesNotExist:
+		raise Http4o4("Does not exist")
+	return render(request,'meme/meme_details.html',
+		context={'mem':mem_id,'memeList':memeList})
+
+def meme_comment(request,pk):
+	meme = get_object_or_404(Mem, pk=pk)
+	if request.method=='POST':
+		form =MemeComment(request.POST,request.FILES)
+		if form.is_valid():
+            #save to the database
+			instance= form.save(commit=False)
+			instance.user = request.user
+			instance.meme = meme
+			instance.save()
+			return redirect('meme:meme_details',pk=meme.pk)
+	else:
+		form=MemeComment()
+	return render(request,'meme/meme_comment.html',{'form':form})
+# def post_comment(request, pk):
+#     post = get_object_or_404(Post, pk=pk)
+#     if request.method == "POST":
+#         form = CreateComment(request.POST)
+#         if form.is_valid():
+#             comment = form.save(commit=False)
+#             comment.commented_by=request.user
+#             comment.post = post
+#             comment.save()
+#             return redirect('blog:post_detail', pk=post.pk)
+#     else:
+#         form = CreateComment()
+#     return render(request, 'blog/post_comment.html', {'form': form})
