@@ -1,2 +1,2 @@
-# Slackers
+#Lyfey Blog
 A simple blog
