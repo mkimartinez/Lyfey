@@ -18,8 +18,9 @@ def index(request):
 		queryset_list = queryset_list.filter(
             Q(title__icontains=query)|
             Q(location__icontains=query))
-	paginator = Paginator(queryset_list,10)
+
 	page = request.GET.get('page')
+	paginator = Paginator(queryset_list, 6)
 
 	try:
 		queryset = paginator.page(page)
@@ -42,7 +43,7 @@ def post_event(request):
 			instance= form.save(commit=False)
 			instance.user = request.user
 			instance.save()
-			return redirect('cityEvent:indexQuiz')
+			return redirect('cityEvent:event_index')
 	else:
 		form=PostEvent()
 	return render(request,'cityEvent/post_event.html',{'form':form})

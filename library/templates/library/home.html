@@ -9,6 +9,11 @@
         <div class="card card-image" style="background-image: url(https://mdbootstrap.com/img/Photos/Others/gradient1.jpg);">
             <div class="text-white text-center py-5 px-4 my-5">
                 <div>
+                    {% if request.user.is_authenticated %}
+        <p>Hi, <strong>{{request.user.username}}</strong></p>
+        {% else %}
+        <h1>Please <a href="/login">login</a> or <a href="/signup">sign up</a></h1>
+        {% endif %}
                     <h1 class="card-title pt-3 mb-5 font-bold"><strong>Welcome To Lyfey Kenya</strong></h1>
                     <h3 class="mx-5 mb-5">Jobs | Articles | Memes | Events | Q&As</h3>
                     <a class="btn btn-danger btn-rounded btn-lg"><i class="fa fa-download left"></i> Download Lyfey App</a>
@@ -17,6 +22,7 @@
         </div>
     </div>
 </div>
+
 
 
 

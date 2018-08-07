@@ -5,6 +5,7 @@ from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidde
 from django.contrib import auth
 from quiz.models import Question,Answer
 from django.template import loader
+from django.contrib import messages
 from django.db.models import Q
 from quiz.forms import AnswerQuestion,AskQuestion
 from django.utils.html import strip_tags
@@ -19,9 +20,8 @@ def index(request):
 	if query:
 		queryset_list=queryset_list.filter(
 			Q(content__icontains = query))
-	paginator = Paginator(queryset_list,10)
 	page = request.GET.get('page')
-
+	paginator = Paginator(queryset_list, 5)
 	try:
 		queryset = paginator.page(page)
 	except PageNotAnInteger:
@@ -72,9 +72,14 @@ def ask_question(request):
 			instance= form.save(commit=False)
 			instance.user = request.user
 			instance.save()
+			messages.success(request, 'Your question was posted successfully!' ,extra_tags='alert')  
 			return redirect('quiz:quiz_index')
+		
+		else:
+			messages.warning(request, 'Please correct the error below.') 
 			# return (HttpResponse("sucess"))
 	else:
 		form =AskQuestion()
+		messages.success(request, 'Form can not be empty!' ,extra_tags='alert')  
 
 	return render(request,'quiz/ask_question.html',{'form':form})

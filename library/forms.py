@@ -5,7 +5,20 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.contrib.auth.models import User
- 
+from .models import Subscribe
+from django.db import models
+
+
+class SubscribeForm(forms.ModelForm):
+    email = forms.CharField(widget=forms.TextInput(attrs={
+        'class':'form-control'
+    }))
+
+    class Meta:
+        model = Subscribe
+        fields = ['email']
+
+
 class LoginForm(forms.Form):
     username = forms.CharField(
         max_length=16,
@@ -27,8 +40,11 @@ class LoginForm(forms.Form):
     )
 
 
-# class ContactForm(forms.Form):
-#     yourname = forms.CharField(max_length=100)
+# class SubscribeForm(forms.Form):
+#
+#     class Meta:
+#         model = Subscribe
+#         fields= ['email',]
 
  
         

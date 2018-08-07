@@ -4,7 +4,6 @@
 
 
 {% block content %}
-
 <div class="container-fliud" style="background-color: grey;">
   <div class="container-fliud " style="background-color: #D32F2F;">
     <br>
@@ -28,6 +27,18 @@
     </div>  
 </div>
 </div>
+<div class="alert alert-primary" role="alert">
+  {% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      
+        <h2 class="{{ message.tags }} text-center" >{{ message }}</h2> 
+    {% endfor %}
+  </ul>
+{% endif %}
+  
+</div>
+
   <br>
   <div class="container " >
     <div class="row ml-auto">
@@ -41,8 +52,32 @@
           </div>
         </div>
         {% endfor %}
+        {% if queryset.has_next %}
+      <div class="alert alert-info" role="alert">
+    <a class="infinite-more-link" href="?page={{ queryset.next_page_number }}">
+    <h2 class="text-center">Load More articles</h2>
+        </a>
+
+      {% else %}
+      <div class="alert alert-danger" role="alert">
+      <h2 class="text-center">No more articles</h2>
+      </div>
+      </div>
+  {% endif %}
       </div>
     </div>
+
+  <script>
+    var infinite = new Waypoint.Infinite({
+      element: $('.infinite-container')[0],
+      onBeforePageLoad: function () {
+        $('.loading').show();
+      },
+      onAfterPageLoad: function ($items) {
+        $('.loading').hide();
+      }
+    });
+  </script>
   </div></div>
 
   {% endblock %}

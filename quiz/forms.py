@@ -1,6 +1,7 @@
 from django import forms
 from django.utils.translation import gettext_lazy as _
 from quiz.models import Answer,Question
+from django.contrib.auth import authenticate
 
 class AskQuestion(forms.ModelForm):
 	content= forms.CharField(widget=forms.Textarea(

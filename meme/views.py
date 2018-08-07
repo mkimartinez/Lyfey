@@ -13,9 +13,8 @@ from meme.forms import CreateMem,MemeComment
 def index(request):
 	model=Mem
 	queryset_list=model.objects.all().order_by('-date_posted')
-	paginator = Paginator(queryset_list,6)
 	page = request.GET.get('page')
-
+	paginator = Paginator(queryset_list, 9)
 	try:
 		queryset = paginator.page(page)
 	except PageNotAnInteger:
@@ -27,9 +26,7 @@ def index(request):
 	"page":page}
 	return render(request,"meme/index.html",context)
 
-# class MemeCreate(CreateView):
-# 	model = is_empty_element()
-# 	fields = ['banner','title']
+
 
 @login_required(login_url='/login')
 def meme_create(request):

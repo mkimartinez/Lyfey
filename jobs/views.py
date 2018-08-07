@@ -6,28 +6,36 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from.serializers import JobSerializer
-from jobs.models import Job
+from jobs.models import Job,JobCategory
+from django.contrib import messages
 from django.template import loader
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from jobs.forms import CreateJob
 
-def jobsIndex(request):
-	queryset_list=Job.objects.all().order_by('-date_posted')
-	paginator = Paginator(queryset_list,20)
-	page = request.GET.get('page')
 
-	try:
-		queryset = paginator.page(page)
-	except PageNotAnInteger:
-		queryset =paginator.page(1)
-	except EmptyPage:
-		queryset = paginator.page(Paginator.num_pages)
-	context={
-	"queryset":queryset,
-	"page":page}
-	return render(request,"jobs/jobsIndex.html",context)
+def jobsIndex(request,category_slug=None):
+    category = None
+    categories = JobCategory.objects.all()
+    queryset_list = Job.objects.all().order_by('-date_posted')
+    if category_slug:
+        category = get_object_or_404(JobCategory,slug=category_slug)
+        queryset_list = Job.objects.filter(category=category)
 
+    page = request.GET.get('page', 1)
+    paginator = Paginator(queryset_list,15)
+    try:
+        number = paginator.page(page)
+    except PageNotAnInteger:
+        number = paginator.page(1)
+    except EmptyPage:
+        number = paginator.page(paginator.num_pages)
+    context={
+        "number":number,
+        'category': category,
+        "categories": categories,
+        "page":page}
+    return render(request,"jobs/jobsIndex.html",context)
 
 
 @login_required(login_url='/login')
@@ -39,6 +47,7 @@ def create_job(request):
 			instance= form.save(commit=False)
 			instance.posted_by = request.user
 			instance.save()
+			messages.success(request, 'Job was posted successfully!' ,extra_tags='alert')  
 			return redirect('jobs:jobsIndex')
 	else:
 		form=CreateJob()

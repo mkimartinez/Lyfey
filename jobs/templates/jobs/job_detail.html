@@ -2,31 +2,45 @@
 {% block title %} Job Details {% endblock %}
 
 {% block content %}
-<div class="container-fliud mx-auto " style="background-color:#bdbdbd; padding: 30px;">
+    <div class="container_fliud">
+<div class="container mx-auto " >
+    <br>
 	<div class="row">
-		<div class="col-lg-7 border border-primary shadow  ml-auto bg-white"  >
-
+		<div class="col-md-8  shadow   bg-white shadow p-3 mb-5 bg-green rounded"  >
 			<div class="">
-
 				<p class="" style="font-size: 28px;"><b>Job Title:</b> {{job.title}}</p>
-				<p style="font-size: 28px;">Company Name:   {{job.company_name}}</p>
+                <p style="font-size: 28px;"><strong>Company Name:</strong>   {{job.company_name}}</p>
 				</div>
-				<hr>
-				<div>
-					<div style="">
-						<p style="font-size: 28px;"><span class="fa fa-clock"></span> {{job.date_posted|timesince}}</p>
-						<h3><span class="fa fa-map-marker"></span> {{job.location}}</h3>
-						<h3>Job Salary:  {{job.salary}}</h3>
-						
-					</div>
-				</div>
+
+
+            <div class="alert alert-dark" role="alert">
+                <div class="row">
+                    <div class="col-3">
+                        <h3><span class="fa fa-map-marker"></span> {{job.location}}</h3>
+
+                    </div>
+                    <div class="col-6">
+                        <p style="font-size: 28px;"><span class="fa fa-clock"></span> {{job.date_posted|timesince}} Ago</p>
+                    </div>
+                    <div class="col-3">
+                        <h3>Ksh:  {{job.salary}}</h3>
+                    </div>
+                </div>
+
+
+
+</div>
+
+
+
+
 				<hr>
 				<div>
 					<h2 > Job Description </h2>
 					<p>{{job.description|striptags}}</p>
 				</div>
 				<hr>
-			<div class="row">
+			<div class="">
 				<h3><a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}">
 			Share on Facebook
 			</a>| <a href="https://twitter.com/home?status={{ request.build_absolute_uri}} + {{post.title|striptags}}  ">
@@ -35,9 +49,16 @@
 			</div>
 			</div>
 
-			<div class="col-lg-5 mt-3 mb-3">
+			<div class="col-md-4  mb-3 ">
+                <div class="border border-success">
+                <div class="card text-white bg-danger mb-3" style="max-width: 25rem;">
+  <div class="card-header">
+      <h1 class="text-center">Featured Jobs</h1></div>
+
+</div>
 				{%  for job in jobList %}
-				<div class="card shadow  bg-white rounded">
+
+				<div class="card shadow  bg-white rounded ">
 					<div class="card-body">
 						<h5 class="card-title">{{job.title}}</h5>
 						<p>With supporting text below as a natural lead-in to additional content.</p>
@@ -45,8 +66,9 @@
 					</div>
 				</div>
 				{% endfor %}
-
+</div>
 			</div>
 		</div>
 	</div>
+    </div>
 	{% endblock %}

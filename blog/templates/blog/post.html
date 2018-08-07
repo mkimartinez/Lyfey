@@ -2,7 +2,9 @@
 
 {% block title %} Lyfey Posts {% endblock %}
 {% load staticfiles %}
-<link rel="stylesheet" href="{% static 'blog/style.css' %}">
+{% load static %}
+<link rel="stylesheet" href="{% static 'blog/blog.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'blog/bootstrap2/css/bootstrap.min.css' %}"/>
 
 {% block breadcrumbs %}Home{% endblock %}
 {% block content %}
@@ -11,8 +13,18 @@
 		<div class="container">
 			<div class="row">
 				<div class="class="col-12 col-sm-12 col-md-6 col-lg-4 ml-auto">
-					<br>
-					<h1>Welcome To Our Blog</h1>
+					                <nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+
+      <li class="breadcrumb-item" {% if not category %} class="active"{% endif %}><a href="{% url 'blog:index' %}">All</a></li>
+            {% for c in categories %}
+
+              <li class="breadcrumb-item"  {% if category.slug == c.slug %} class="active"{% endif %}>
+                  <a href="{{ c.get_absolute_url }}">{{ c.name }}</a>
+              </li>
+            {% endfor %}
+  </ol>
+</nav>
 				</div>
 				<div class="col-12 col-sm-12 col-md-6 col-lg-4 ml-auto">
 					<form method="GET" action="">
@@ -21,50 +33,93 @@
               </div>
             </form>
 				</div> 
-			</div> 
+			</div>
+
 		</div>
 	</div>
- 
 
 <div class="container">
 	<div class="row border-secondary justify-content-md-center ">
 		<div class="col-md-8 ">
-			{% for post in queryset %}
-			<div class="card" style="width: 100%;" >
-				<img class="card-img-top img-thumbnail" src="{{ post.image.url }}" alt="Card image cap" height="">
+  {% for number in number %}
+			<div class="card " style="width: 100%;" >
+                    <div class="infinite-container">
+
+                <div class="infinite-item">
+                <img class="card-img-top img-thumbnail" src="{{ number.image.url }}" alt="Card image cap" height="">
 				<div class="card-body">
-					
-				<h3 class="card-title "><b><span><a href="/blog/{{post.id}}">{{post.title|striptags}}</a></span></b></h3>
-					<p class="card-title"><span class="fa fa-user" ></span> {{ post.user }} |
+
+				<h3 class="card-title "><b><span><a href="/blog/{{number.id}}">{{number.title|striptags}}</a></span></b></h3>
+					<p class="card-title"><span class="fa fa-user" ></span> {{ post.user }} | {{ post.category }}
 							<span class="fa fa-clock-o"></span> {{ post.date_published }} |Comments  <span class="badge badge-primary badge-pill">{{ post.comments.count }}</span></p>
 					<p class="">{{post.body|striptags|linebreaks|truncatechars:100}}</p>
 					<a href="/blog/{{post.id}}" class="btn btn-primary">Read full article</a>
 		<!-- 			<p class="card-text mt-0 mb-1">{{post.body|striptags|linebreaks|truncatechars:200}}<a href="/blog/{{post.id}}" class=" ">Read more[...]</a></p> -->
 				</div>
+                </div>
+                    </div>
+            </div>
+                <br>
+                <br>
+            {% endfor %}
+
+
+  {% if number.has_next %}
+      <div class="alert alert-info" role="alert">
+    <a class="infinite-more-link" href="?page={{ number.next_page_number }}">
+    <h2 class="text-center">Load More articles</h2>
+        </a>
+
+      {% else %}
+      <div class="alert alert-danger" role="alert">
+      <h2 class="text-center">No more articles</h2>
+      </div>
+  {% endif %}
+{#          {% if number.empty %}#}
+{#      <div class="alert alert-info" role="alert">#}
+{#    <a class="infinite-more-link" href="?page={{ number.next_page_number }}">#}
+{#    <h2 class="text-center">Load More articles</h2>#}
+{#        </a>#}
+{##}
+{#  {% endif %}#}
+
+
+
+
+        </div>
+                <br>
+
+
+
+
+
 			</div>
 
-				<hr>
-				{%endfor %}
+
+{#				{%endfor %}#}
 			</div>
+
+
+
+
+
+  <script>
+    var infinite = new Waypoint.Infinite({
+      element: $('.infinite-container')[0],
+      onBeforePageLoad: function () {
+        $('.loading').show();
+      },
+      onAfterPageLoad: function ($items) {
+        $('.loading').hide();
+      }
+    });
+  </script>
 
 		</div>
-		<div class="container">
 
-			<div class="pagination">
-				<h3 class="text-center"><span>
-					{% if queryset.has_previous %}
-					<a href="?page={{ queryset.previous_page_number }}&q={{ request.GET.q">Previous</a>
-					{% endif %}
-				</span></h3>
-				<span class="current">
-					Page {{ queryset.number }} of {{queryset.paginator.num_pages}}
-				</span>
-				{% if queryset.has_next %}
-				<a href="?page={{ queryset.next_page_number }}&q={{ request.GET.q }}">next</a>
-				{% endif %}
 
-			</div>
+</div>
 
-		</div></div>
+
 	</div>
 		{% endblock %}

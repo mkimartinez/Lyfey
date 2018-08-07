@@ -17,3 +17,44 @@
                     <input type="submit" value="Create" name="">
                     
                 </form>
+
+
+      {% if queryset.has_next %}
+      <div class="alert alert-info" role="alert">
+    <a class="infinite-more-link" href="?page={{ queryset.next_page_number }}">
+    <h2 class="text-center">Load More articles</h2>
+        </a>
+
+      {% else %}
+      <div class="alert alert-danger" role="alert">
+      <h2 class="text-center">No more articles</h2>
+      </div>
+  {% endif %}
+  <script>
+    var infinite = new Waypoint.Infinite({
+      element: $('.infinite-container')[0],
+      onBeforePageLoad: function () {
+        $('.loading').show();
+      },
+      onAfterPageLoad: function ($items) {
+        $('.loading').hide();
+      }
+    });
+  </script>
+
+
+    <div class="container">
+    <div class="pagination text-center">
+      <span>
+        {% if queryset.has_previous %}
+        <h4 class="text-center"><a href="?page={{ queryset.previous_page_number }}&q={{ request.GET.q}}">Previous</a></h4>
+        {% endif %}
+  </span>
+      <span class="current">
+        <h4 class="text-center">Page {{ queryset.number }} of {{queryset.paginator.num_pages}}</h4>
+           </span>
+      {% if queryset.has_next %}
+      <a href="?page={{ queryset.next_page_number }}&q={{ request.GET.q }}">next</a>
+      {% endif %}
+    </div>
+  </div>

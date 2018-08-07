@@ -8,18 +8,11 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden
 from django import forms
 from django.contrib import auth
-from library.forms import SignUpForm
+from library.forms import SignUpForm,SubscribeForm
 from django.contrib.auth import login, authenticate
 from django.template import loader
 from django.contrib.auth.decorators import login_required
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
-import json
-from django.views.generic import TemplateView 
-from django.views import generic
-
-# from library.models import  User
-from jobs.models import Job
 from library.forms import LoginForm, RegisterForm, ResetPasswordForm 
 
 def index(request):
@@ -33,8 +26,8 @@ def contact(request):
 
 
 def user_login(request):
-    if request.user.is_authenticated():
-        return HttpResponseRedirect('/')
+    # if request.user.is_authenticated():
+    #     return HttpResponseRedirect('/')
 
     state = None
 
@@ -173,29 +166,18 @@ def profile(request):
     }
     return render(request, 'library/profile.html', context)
 
-#
-# def article(request):
-#     all_articles = Articles.objects.all()
-#     template = loader.get_template('library/index.html')
-#     context = {
-#     'all_articles' : all_articles,
-#     }
-#     return HttpResponse(template.render(context,request))
 def article_detail(request):
     return HttpResponse("HI")
 
 
-
-@login_required(login_url='/login')
-def sendMessage(request):
-    if request.method=='POST':
-        form = ContactForm(request.POST)
+def subscribe(request):
+    if request.method == 'POST':
+        form = SubscribeForm(request.POST)
         if form.is_valid():
-            #save to the database
-            instance= form.save(commit=False)
-            instance.posted_by = request.user
-            instance.save()
-            return redirect('jobs:jobsIndex')
+            instance = form.save(commit=False)
+            instance.username = request.user
+            instance.save
+            return redirect('library:index')
     else:
-        form=CreateJob()
-    return render(request,'jobs/create_job.html',{'form':form})
+        form = SubscribeForm()
+    return render(request,'library/subscribe.html', {'form': form})

@@ -1,9 +1,7 @@
-{% extends "library/base.html" %}
-
-{% block title %} Job Listings {% endblock %}
+{% extends 'library/base.html' %}
 
 {% block content %}
-<div class="container-fliud " style="background-color: #D32F2F;">
+    <div class="container-fliud " style="background-color: #D32F2F;">
     <br>
     <br>
     <div class="container">
@@ -15,18 +13,41 @@
             <div role="alert" class="alert alert-secondary">
                 <input type="text" class="form-control" placeholder="Search by job title" size="20">
             </div>
-        </div> 
+        </div>
          <div class="col-12 col-sm-12 col-md-6 col-lg-3 mx-auto">
               <h1 style="color: #FFF;"><a href="{% url 'jobs:jobsCreate' %}"><button class="btn btn-default btn-lg"><span class="fa  fa-plus-circle"></span>Add Job</a></button></h1>
           </div>
-    </div>  
+    </div>
 </div>
 </div>
-<br>
-<div class="container-fliud" style="margin: 50px;">
-   {% for job in queryset %}
-   <div class="row ml-auto">
-    <div class="col-12 col-sm-8 col-md-6 col-lg-3">
+    <div class="container">
+        <br>
+        <br>
+    <div class="alert alert-primary" role="alert">
+    <h3 class="text-center">Browse by Categories</h3>
+    <ol class="breadcrumb">
+
+      <li class="breadcrumb-item" {% if not category %} class="active"{% endif %}><a href="{% url 'jobs:jobsIndex' %}">All</a></li>
+            {% for c in categories %}
+
+
+              <li class="breadcrumb-item"  {% if category.slug == c.slug %} class="active"{% endif %}>
+                  <a href="{{ c.get_absolute_url }}">{{ c.name }}</a>
+              </li>
+            {% endfor %}
+  </ol>
+</div>
+</div>
+
+
+
+    <div class="container">
+        <br>
+  <div class="infinite-container">
+    {% for job in number %}
+      <div class="infinite-item">
+         <div class="row ml-auto infinite-container ">
+    <div class="col-12 col-sm-8 col-md-6 col-lg-3 infinite-item">
        <h5><a href="/jobs/{{job.id}}">{{job.title}}</a></h5>
    </div>
    <div class="col-12 col-sm-8 col-md-6 col-lg-3">
@@ -39,8 +60,43 @@
 <div class="col-12 col-sm-8 col-md-6 col-lg-3">
     {{job.company_name}}
 </div>
+
 </div>
-<hr>
-{% endfor %}
-</div>
+
+
+      </div>
+        <hr>
+    {% endfor %}
+  </div>
+      {% if number.has_next %}
+      <div class="alert alert-info" role="alert">
+    <a class="infinite-more-link" href="?page={{ number.next_page_number }}">
+    <h2 class="text-center">Load More Jobs</h2>
+        </a>
+
+      {% else %}
+      <div class="alert alert-danger" role="alert">
+      <h2 class="text-center">No more Jobs</h2>
+      </div>
+  {% endif %}
+    </div>
+
+
+
+  <div class="loading" style="display: none;">
+    Loading...
+  </div>
+
+  <script>
+    var infinite = new Waypoint.Infinite({
+      element: $('.infinite-container')[0],
+      onBeforePageLoad: function () {
+        $('.loading').show();
+      },
+      onAfterPageLoad: function ($items) {
+        $('.loading').hide();
+      }
+    });
+  </script>
+    </div>
 {% endblock %}

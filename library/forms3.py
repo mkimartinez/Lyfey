@@ -2,7 +2,29 @@
 # -*- coding: utf-8 -*-
 
 from django import forms
+from .models import Subscribe
  
+
+# class SubscribeForm(forms.ModelForm):
+#     email = forms.CharField(
+#         title=forms.CharField(widget=forms.TextInput(
+#             attrs={
+#                 'class': 'form-control',
+#                 'placeholder': 'Title of your Meme'
+#             }))
+#     class Meta:
+#         model = Subscribe
+#         fields =['email']
+
+class SubcribeForm(forms.ModelForm):
+    email = forms.CharField(widget=forms.TextInput(attrs={
+        'class':'form-control'
+    }))
+
+    class Meta:
+        model = Subscribe
+        fields=['email']
+
 
 
 class LoginForm(forms.Form):

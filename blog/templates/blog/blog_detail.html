@@ -14,7 +14,7 @@
 		<h4><span class="fa fa-user" ></span> {{ post.user }} | 
 			<span class="fa fa-calendar-times-o"></span> {{ post.date_published }}</h4>
 			<hr>
-			<p>{{post.body|safe|linebreaks|striptags}}</p>
+			{{post.body|safe}}
 
 			<h3><a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}">
 			Share on Facebook

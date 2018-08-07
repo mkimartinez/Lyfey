@@ -1,10 +1,11 @@
+from django.http import Http404
 from django.shortcuts import render, get_object_or_404, redirect
 from blog.models import Post, Category,BlogComment
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.views import generic
-from jobs.forms import CreateJob
+# from jobs.forms import CreateJob
 from.serializer import PostSerializer,CategorySerializer
 from rest_framework import viewsets
 from django.db.models import Q
@@ -15,28 +16,58 @@ from blog.forms import CreatePost,CreateComment
 
 # Create your views here.
 
-def index(request):
-    queryset_list=Post.objects.all().order_by('-date_published')
+
+def index(request, category_slug=None):
+    category =None
+    categories = Category.objects.all()
+    queryset_list = Post.objects.all().order_by('-date_published')
     query = request.GET.get("query")
-    if query:
+    if category_slug:
+        category = get_object_or_404(Category,slug=category_slug)
+        queryset_list = Post.objects.filter(category=category)
+    elif query:
         queryset_list = queryset_list.filter(
-            Q(title__icontains=query)|
-            Q(tags__icontains=query))
-    paginator = Paginator(queryset_list,6)
-    page = request.GET.get('page')
-
-
+            Q(title__contains=query)
+        )
+    page = request.GET.get('page',1)
+    paginator = Paginator(queryset_list,3)
     try:
-        queryset = paginator.page(page)
+        number = paginator.page(page)
     except PageNotAnInteger:
-        queryset =paginator.page(1)
+        number=paginator.page(1)
     except EmptyPage:
-        queryset = paginator.page(Paginator.num_pages)
-    context={
-        "queryset":queryset,
-        "categories":Category.objects.all(),
-        "page":page}
+        number=paginator.page(paginator.num_pages)
+    context = {
+        'number':number,
+        'category': category,
+        "categories": categories
+    }
     return render(request,"blog/post.html",context)
+# def index(request, category_slug=None):
+#     category =None
+#     categories = Category.objects.all()
+#     queryset_list=Post.objects.all().order_by('-date_published')
+#     query = request.GET.get("query")
+#     if query:
+#         queryset_list = queryset_list.filter(
+#             Q(title__icontains=query)|
+#             Q(tags__icontains=query))
+#     paginator = Paginator(queryset_list,6)
+#     page = request.GET.get('page')
+#     if category_slug:
+#         category = get_object_or_404(Category,slug=category_slug)
+#         queryset_list = Post.objects.filter(category=category)
+#     try:
+#         queryset = paginator.page(page)
+#     except PageNotAnInteger:
+#         queryset =paginator.page(1)
+#     except EmptyPage:
+#         queryset = paginator.page(Paginator.num_pages)
+#     context={
+#         "queryset":queryset,
+#         "categories":Category.objects.all(),
+#         "page":page}
+#     return render(request,"blog/post.html",context)
 
 
 def blog_detail(request):
@@ -45,19 +76,19 @@ def blog_detail(request):
 class PostDetailView(generic.DetailView):
     model = Post
 
-@login_required(login_url='/login')
-def create_post(request):
-    if request.method=='POST':
-        form = CreatePost(request.POST,request.FILES)
-        if form.is_valid():
-            #save to the database
-            instance= form.save(commit=False)
-            instance.posted_by = request.user
-            instance.save()
-            return redirect('/post')
-    else:
-        form=CreateJob()
-    return render(request,'jobs/create_job.html',{'form':form})
+# @login_required(login_url='/login')
+# def create_post(request):
+#     if request.method=='POST':
+#         form = CreatePost(request.POST,request.FILES)
+#         if form.is_valid():
+#             #save to the database
+#             instance= form.save(commit=False)
+#             instance.posted_by = request.user
+#             instance.save()
+#             return redirect('/post')
+#     else:
+#         form=CreateJob()
+#     return render(request,'jobs/create_job.html',{'form':form})
 
 @login_required(login_url='/login')
 def create_comment(request):

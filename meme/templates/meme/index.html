@@ -7,6 +7,7 @@
 </head>
 
 {% block content %}
+    <div>
 <div class="container-fliud" style="background-color: #BDBDBD; ">
   <div class="container-fliud " style="background-color: #D32F2F;">
     <br>
@@ -29,13 +30,17 @@
   </div>
   <br>
   <br>
+</div>
 
-    <div class="container-fluid">
-  <div class="row" >
+    <div class="container">
+        <br>
+    <div class="row">
     {% for meme in queryset %}
-    <div class="col-lg-4">
-          <div class="card-deck">
-      <div class="card shadow-lg p-3 mb-5 bg-white rounded " style="margin-bottom: 1em;">
+        <div class="col-md-4">
+    <div class="card-deck">
+        <div class="infinite-container" >
+
+      <div class="card shadow-lg p-3 mb-5 bg-white rounded" style="margin-bottom: 1em;">
         <img class="card-img-top" src="{{ meme.banner.url }}" alt="Card image cap" width="100%" height="200px">
         <div class="card-block">
            <h5 class="card-title"><a href="/meme/{{meme.id}}">{{meme.title}} <span class="badge badge-primary badge-pill">{{ meme.comments.count }}</span></p></a></h5>
@@ -47,24 +52,35 @@
       </div>
     </div>
     </div>
-    {% endfor %}
-  </div>
-</div>
-  <div class="container">
-    <div class="pagination">
-      <span>
-        {% if queryset.has_previous %}
-        <a href="?page={{ queryset.previous_page_number }}">Previous</a>
-        {% endif %}
-      </span>
-      <span class="current">
-        Page {{ queryset.number }} of {{queryset.paginator.num_pages}}
-      </span>
-      {% if queryset.has_next %}
-      <a href="?page={{ queryset.next_page_number }}">next</a>
-      {% endif %}
+    </div>
+            {% endfor %}
+    {% if queryset.has_next %}
+      <div class="alert alert-info" role="alert">
+    <a class="infinite-more-link" href="?page={{ queryset.next_page_number }}">
+    <h2 class="text-center">Load More Memes</h2>
+        </a>
+
+      {% else %}
+      <div class="alert alert-danger" role="alert">
+      <h2 class="text-center">No more Memes</h2>
+      </div>
+      </div>
+  {% endif %}
 
     </div>
-  </div>
-</div> 
+
+</div>
+      <script>
+    var infinite = new Waypoint.Infinite({
+      element: $('.infinite-container')[0],
+      onBeforePageLoad: function () {
+        $('.loading').show();
+      },
+      onAfterPageLoad: function ($items) {
+        $('.loading').hide();
+      }
+    });
+  </script>
+
+</div>
 {% endblock %}

@@ -3,10 +3,12 @@ from django.contrib.staticfiles import views as static_views
 from django.conf.urls.static import static
 from django.conf import settings
 from django.views.generic import ListView,DetailView
+from django.contrib.sitemaps.views import sitemap
 from blog.models import Post,Category
 from rest_framework.urlpatterns import format_suffix_patterns
 import blog.views as views
 from rest_framework import routers
+# from .sitemaps import PostSitemap
 
 app_name="blog"
 
@@ -17,9 +19,11 @@ router.register('categories',views.CategoriesList)
 
 urlpatterns=[
 			url(r'^$', views.index, name='index'),
+			# url(r'^sitemap\.xml/$', sitemap, {'sitemaps' : sitemaps } , name='sitemap'),
 			url('',include(router.urls)),
 			url(r'^postList/', views.PostList.as_view()),
-			url(r'^create/$',views.create_post,name='postCreate'),
+			url(r'^(?P<category_slug>[-\w]+)/$', views.index, name='post_by_category'),
+				# url(r'^create/$',views.create_post,name='postCreate'),
 			url(r'^(?P<pk>\d+)/comment/$', views.post_comment, name='post_comment'),
 			# url(r'^(?P<pk>\d+)$',views.PostDetailView.as_view(),name='blog_detail'),
 			url(r'^(?P<pk>\d+)$',views.post_detail,name='post_detail'),
